@@ -1,0 +1,68 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SimpleInventoryManagementApp"
+        xmlns:Collections="clr-namespace:System.Collections;assembly=System.Collections.NonGeneric" 
+        x:Class="SimpleInventoryManagementApp.MainWindow"
+        mc:Ignorable="d"
+        Title="Inventory Manager"
+        Height="450" MinHeight="220" Width="800" MinWidth="400">
+    <Window.Resources>
+        <Style x:Key="LeftAlignedCellStyle" TargetType="TextBlock">
+            <Setter Property="HorizontalAlignment" Value="Left" />
+        </Style>
+        <Style x:Key="RightAlignedCellStyle" TargetType="TextBlock">
+            <Setter Property="HorizontalAlignment" Value="Right" />
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Orientation="Horizontal" Margin="10" Grid.Row="0">
+            <TextBox x:Name="SearchTextBox" Width="200" Margin="0,0,10,0" />
+            <ComboBox x:Name="SearchCriteriaComboBox" Width="100" Margin="0,0,10,0">
+                <ComboBoxItem Content="Name" IsSelected="True"/>
+                <ComboBoxItem Content="Category"/>
+            </ComboBox>
+            <Button Content="Search" Click="SearchButton_Click"/>
+        </StackPanel>
+
+        <DataGrid x:Name="dgInventory"
+                  IsReadOnly="True"
+                  AutoGenerateColumns="false"
+                  RowDetailsVisibilityMode="VisibleWhenSelected"
+                  Margin="10"
+                  Grid.Row="1"
+                  SelectionChanged="dgInventory_SelectionChanged">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="6*" ElementStyle="{StaticResource LeftAlignedCellStyle}" />
+                <DataGridTextColumn Header="Category" Binding="{Binding Category}" Width="3*" ElementStyle="{StaticResource LeftAlignedCellStyle}" />
+                <DataGridTextColumn Header="Quantity" Binding="{Binding Quantity}" Width="2*" ElementStyle="{StaticResource RightAlignedCellStyle}" />
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <Grid Margin="10" Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="20*"/>
+                <ColumnDefinition Width="40*"/>
+                <ColumnDefinition Width="20*"/>
+                <ColumnDefinition Width="10*"/>
+                <ColumnDefinition Width="10*"/>
+                <ColumnDefinition Width="10*"/>
+            </Grid.ColumnDefinitions>
+            <Button Content="Add New Item" Click="NewInventoryItemButton_Click" Grid.Column="0" Margin="0,0,10,0" />
+            <TextBox x:Name="tbName" Grid.Column="1" Margin="0,0,10,0" IsEnabled="{Binding IsItemSelected}" />
+            <TextBox x:Name="tbCategory" Grid.Column="2" Margin="0,0,10,0" IsEnabled="{Binding IsItemSelected}" />
+            <TextBox x:Name="tbQuantity" Grid.Column="3" Margin="0,0,10,0" IsEnabled="{Binding IsItemSelected}" />
+            <Button Content="Update" Click="UpdateInventoryItemButton_Click" Grid.Column="4" Margin="0,0,10,0" IsEnabled="{Binding IsItemSelected}" />
+            <Button Content="Delete" Click="DeleteButton_Click" Grid.Column="5" IsEnabled="{Binding IsItemSelected}" />
+        </Grid>
+    </Grid>
+</Window>
